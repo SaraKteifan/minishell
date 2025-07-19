@@ -11,7 +11,12 @@ LIBFT          = $(LIBFT_PATH)libft.a
 LIBFT_FLAGS    = -L$(LIBFT_PATH) -lft
 READLINE_FLAGS = -lreadline -lncurses
 
-SRC_FILES   = main init utils env env_utils env_manage lexer lexer_utils lexer_tokens lexer_handlers expander cleanup
+SRC_FILES   = main init utils \
+			env env_utils env_manage \
+			lexer lexer_utils lexer_tokens lexer_handlers \
+			expander expander_utils \
+			parser parser_syntax parser_redir parser_args\
+			cleanup
 SRC         = $(addprefix $(SRC_PATH), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_PATH), $(addsuffix .o, $(SRC_FILES)))
 

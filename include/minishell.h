@@ -62,12 +62,24 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_cmd
+{
+	char			*cmd_name;
+	char			**args;
+	char			*infile;
+	char			*outfile;
+	char			*heredoc_limiter;
+	int				append;
+	struct s_cmd	*next;
+}	t_cmd;
+
 typedef struct s_minishell
 {
 	t_env	*env_list;
 	char	*executable_name;
 	char	*input;
 	t_token	*token_list;
+	t_cmd	*cmd_list;
 	int		exit_status;
 }	t_minishell;
 
@@ -104,8 +116,14 @@ int		add_token_to_tokens(t_token **token_list, char *token,
 void	free_token_list(t_token *token_list);
 
 int		expand_variables_in_tokens(t_minishell *minishell);
+char	*get_expanded_token(char *token, t_minishell *minishell, int i);
 
-//int		parse_tokens(t_token *token_list);
+int		parse_tokens(t_token *token_list, t_cmd **cmd_list);
+int		is_syntax_valid(t_token *token_list);
+int		is_redirection_type(t_token_type type);
+int		handle_parser_redir(t_token *token_list, t_cmd *cmd);
+int		build_parser_args(t_token *token_list, t_cmd *cmd);
+void	free_cmd_list(t_cmd *cmd_list);
 
 void	cleanup_minishell(t_minishell *minishell);
 void	malloc_fail(t_minishell *minishell);

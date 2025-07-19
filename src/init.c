@@ -18,5 +18,6 @@ void	init_minishell(char *executable_name, t_minishell *minishell)
 	minishell->executable_name = executable_name;
 	minishell->input = NULL;
 	minishell->token_list = NULL;
+	minishell->cmd_list = NULL;
 	minishell->exit_status = 0;
 }

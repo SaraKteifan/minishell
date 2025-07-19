@@ -49,6 +49,38 @@ void	free_env_list(t_env *env_list)
 	}
 }
 
+void	free_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+		free(args[i++]);
+	free(args);
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	free(cmd->cmd_name);
+	free_args(cmd->args);
+	free(cmd->infile);
+	free(cmd->outfile);
+	free(cmd->heredoc_limiter);
+	free(cmd);
+}
+
+void	free_cmd_list(t_cmd *cmd_list)
+{
+	t_cmd	*ptr;
+
+	while (cmd_list)
+	{
+		ptr = cmd_list->next;
+		free_cmd(cmd_list);
+		cmd_list = ptr;
+	}
+}
+
 void	cleanup_minishell(t_minishell *minishell)
 {
 	if (minishell->env_list)
@@ -56,8 +88,11 @@ void	cleanup_minishell(t_minishell *minishell)
 	free(minishell->input);
 	if (minishell->token_list)
 		free_token_list(minishell->token_list);
+	if (minishell->cmd_list)
+		free_cmd_list(minishell->cmd_list);
 	rl_clear_history();
 	minishell->env_list = NULL;
 	minishell->input = NULL;
 	minishell->token_list = NULL;
+	minishell->cmd_list = NULL;
 }

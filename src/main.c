@@ -15,7 +15,8 @@
 void	minishell_loop(t_minishell *minishell)
 {
 	int	res;
-	t_token	*ptr;
+	t_cmd	*ptr;
+	int	i;
 
 	while (1)
 	{
@@ -29,26 +30,43 @@ void	minishell_loop(t_minishell *minishell)
 			malloc_fail(minishell);
 		if (expand_variables_in_tokens(minishell) != 0)
 			malloc_fail(minishell);
-		//res = parse_tokens(minishell->token_list);
-		//if (res == 1)
+		res = parse_tokens(minishell->token_list, &(minishell->cmd_list));
+		if (res == 1)
+		{
+			free(minishell->input);
+			free_token_list(minishell->token_list);
+			minishell->token_list = NULL;
+			continue ;
+		}
+		if (res == -1)
+			malloc_fail(minishell);
+		//ptr = minishell->token_list;
+		//while (ptr)
 		//{
-		//	free(minishell->input);
-		//	free_token_list(minishell->token_list);
-		//	minishell->token_list = NULL;
-		//	continue ;
+		//	printf("[%s] type is: \"%d\"\n", ptr->token, ptr->type);
+		//	ptr = ptr->next;
 		//}
-		//if (res == -1)
-		//	malloc_fail(minishell);
-		ptr = minishell->token_list;
+		ptr = minishell->cmd_list;
 		while (ptr)
 		{
-			printf("[%s] type is: \"%d\"\n", ptr->token, ptr->type);
+			printf("cmd name: [%s]\n", ptr->cmd_name);
+			printf("infile: [%s]\n", ptr->infile);
+			printf("outfile: [%s]\n", ptr->outfile);
+			printf("heredoc: [%s]\n", ptr->heredoc_limiter);
+			printf("append?: [%i]\n", ptr->append);
+			i = 0;
+			while (ptr->args[i])
+			{
+				printf("arg[%i]: [%s]\n", i, ptr->args[i]);
+				i++;
+			}
 			ptr = ptr->next;
 		}
-
 		free(minishell->input);
 		free_token_list(minishell->token_list);
+		free_cmd_list(minishell->cmd_list);
 		minishell->token_list = NULL;
+		minishell->cmd_list = NULL;
 	}
 	rl_clear_history();
 }
