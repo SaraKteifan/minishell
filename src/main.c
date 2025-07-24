@@ -30,7 +30,7 @@ void	minishell_loop(t_minishell *minishell)
 			malloc_fail(minishell);
 		if (expand_variables_in_tokens(minishell) != 0)
 			malloc_fail(minishell);
-		res = parse_tokens(minishell->token_list, &(minishell->cmd_list));
+		res = parse_tokens(minishell);
 		if (res == 1)
 		{
 			free(minishell->input);
@@ -40,12 +40,6 @@ void	minishell_loop(t_minishell *minishell)
 		}
 		if (res == -1)
 			malloc_fail(minishell);
-		//ptr = minishell->token_list;
-		//while (ptr)
-		//{
-		//	printf("[%s] type is: \"%d\"\n", ptr->token, ptr->type);
-		//	ptr = ptr->next;
-		//}
 		ptr = minishell->cmd_list;
 		while (ptr)
 		{

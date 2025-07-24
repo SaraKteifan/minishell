@@ -61,22 +61,22 @@ int	build_cmd_struct(t_token *token_list, t_cmd *cmd)
 	return (0);
 }
 
-int	build_cmd_list(t_token *token_list, t_cmd **cmd_list)
+int	build_cmd_list(t_minishell *minishell)
 {
 	t_cmd	*cmd;
 
-	while (token_list)
+	while (minishell->token_list)
 	{
 		cmd = create_cmd_node();
 		if (!cmd)
 			return (1);
-		if (build_cmd_struct(token_list, cmd) == 1)
+		if (build_cmd_struct(minishell->token_list, cmd) == 1)
 		{
 			free(cmd);
 			return (1);
 		}
-		add_cmd_node(cmd, cmd_list);
-		while (token_list)
+		add_cmd_node(cmd, &(minishell->cmd_list));
+		while (minishell->token_list)
 		{
 			if (token_list->type == T_PIPE)
 			{
@@ -89,11 +89,11 @@ int	build_cmd_list(t_token *token_list, t_cmd **cmd_list)
 	return (0);
 }
 
-int	parse_tokens(t_token *token_list, t_cmd **cmd_list)
+int	parse_tokens(t_minishell *minishell)
 {
-	if (is_syntax_valid(token_list) == 1)
+	if (is_syntax_valid(minishell->token_list) == 1)
 		return (1);
-	if (build_cmd_list(token_list, cmd_list) == 1)
+	if (build_cmd_list(minishell) == 1)
 		return (-1);
 	return (0);
 }
