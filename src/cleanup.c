@@ -6,17 +6,11 @@
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 20:35:25 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/05 20:35:25 by skteifan         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:16:46 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_token_node(t_token *token_node)
-{
-	free(token_node->token);
-	free(token_node);
-}
 
 void	free_token_list(t_token *token_list)
 {
@@ -30,13 +24,6 @@ void	free_token_list(t_token *token_list)
 	}
 }
 
-void	free_env_var(t_env *env_var)
-{
-	free(env_var->key);
-	free(env_var->value);
-	free(env_var);
-}
-
 void	free_env_list(t_env *env_list)
 {
 	t_env	*ptr;
@@ -47,26 +34,6 @@ void	free_env_list(t_env *env_list)
 		free_env_var(env_list);
 		env_list = ptr;
 	}
-}
-
-void	free_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		free(args[i++]);
-	free(args);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	free(cmd->cmd_name);
-	free_args(cmd->args);
-	free(cmd->infile);
-	free(cmd->outfile);
-	free(cmd->heredoc_limiter);
-	free(cmd);
 }
 
 void	free_cmd_list(t_cmd *cmd_list)

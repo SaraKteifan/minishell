@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manipulate_env.c                                   :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:37:42 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/01 21:37:42 by skteifan         ###   ########.fr       */
+/*   Updated: 2025/08/02 17:00:49 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_env(t_env **env)
+int	count_env(t_env *env)
 {
 	int		i;
 	t_env	*tmp;
 
 	i = 0;
-	tmp = *env;
+	tmp = env;
 	while (tmp)
 	{
 		i++;
@@ -27,7 +27,7 @@ int	count_env(t_env **env)
 	return (i);
 }
 
-char	**env_list_to_array(t_env **env_list)
+char	**env_list_to_array(t_env *env_list)
 {
 	int		i;
 	int		j;
@@ -41,11 +41,11 @@ char	**env_list_to_array(t_env **env_list)
 	j = 0;
 	while (j < i)
 	{
-		tmp = ft_strjoin((*env_list)->key, "=");
-		array[j] = ft_strjoin(tmp, (*env_list)->value);
+		tmp = ft_strjoin(env_list->key, "=");
+		array[j] = ft_strjoin(tmp, env_list->value);
 		free(tmp);
 		j++;
-		(*env_list) = (*env_list)->next;
+		env_list = env_list->next;
 	}
 	array[j] = NULL;
 	return (array);

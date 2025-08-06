@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/05 20:15:02 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/05 20:15:02 by skteifan         ###   ########.fr       */
+/*   Created: 2025/08/02 14:30:00 by skteifan          #+#    #+#             */
+/*   Updated: 2025/08/05 11:48:06 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_minishell(char *executable_name, t_minishell *minishell)
+int	ft_echo(char **args)
 {
-	minishell->env_list = NULL;
-	minishell->executable_name = executable_name;
-	minishell->input = NULL;
-	minishell->token_list = NULL;
-	minishell->cmd_list = NULL;
-	minishell->exit_status = 0;
+	int	i;
+	int	no_newline;
+
+	i = 1;
+	no_newline = 0;
+	while (args[i] && ft_strncmp(args[i], "-n", -1) == 0)
+	{
+		no_newline = 1;
+		i++;
+	}
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+		{
+			printf(" ");
+		}
+		i++;
+	}
+	if (!no_newline)
+	{
+		printf("\n");
+	}
+	return (0);
 }

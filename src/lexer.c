@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenization.c                                     :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 21:33:30 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/02 21:33:30 by skteifan         ###   ########.fr       */
+/*   Updated: 2025/08/02 22:48:32 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,28 @@ int	split_input_into_tokens(char *input, t_token **token_list,
 	return (0);
 }
 
-int	tokenize_input(char *input, t_token **token_list)
+int	is_input_valid(char *input, t_minishell *minishell)
+{
+	if (is_blank_line(input))
+	{
+		minishell->exit_status = 0;
+		return (1);
+	}
+	if (check_unclosed_quotes(input) != 0)
+	{
+		minishell->exit_status = 2;
+		return (1);
+	}
+	return (0);
+}
+
+int	tokenize_input(char *input, t_token **token_list, t_minishell *minishell)
 {
 	int		i;
 	int		res;
 	char	*buffer;
 
-	if (check_unclosed_quotes(input) != 0 || is_blank_line(input))
+	if (is_input_valid(input, minishell) != 0)
 	{
 		free(input);
 		return (1);
@@ -84,6 +99,8 @@ int	tokenize_input(char *input, t_token **token_list)
 	*buffer = '\0';
 	res = split_input_into_tokens(input, token_list, i, buffer);
 	free(buffer);
+	free(minishell->input);
+	minishell->input = NULL;
 	if (res == -1)
 		return (-1);
 	return (0);
@@ -93,7 +110,7 @@ char	*read_input(void)
 {
 	char	*input;
 
-	input = readline("minishell> ");
+	input = readline("\001\033[1;33m\002minishell🌻> \001\033[0m\002");
 	if (input == NULL)
 	{
 		printf("exit\n");

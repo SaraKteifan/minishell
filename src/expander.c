@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:36:54 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/13 19:29:42 by skteifan         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:22:59 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	expand_variables_in_tokens(t_minishell *minishell)
 	current_token = minishell->token_list;
 	while (current_token)
 	{
+		if (current_token->type == T_HEREDOC && current_token->next)
+		{
+			current_token = current_token->next->next;
+			continue ;
+		}
 		if ((current_token->type == T_WORD || current_token->type == T_DQUOTE)
 			&& ft_strchr(current_token->token, '$'))
 		{

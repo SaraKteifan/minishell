@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/05 20:15:02 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/05 20:15:02 by skteifan         ###   ########.fr       */
+/*   Created: 2025/08/02 14:31:30 by skteifan          #+#    #+#             */
+/*   Updated: 2025/08/03 09:25:11 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_minishell(char *executable_name, t_minishell *minishell)
+int	ft_exit(char **args, t_env *env_list)
 {
-	minishell->env_list = NULL;
-	minishell->executable_name = executable_name;
-	minishell->input = NULL;
-	minishell->token_list = NULL;
-	minishell->cmd_list = NULL;
-	minishell->exit_status = 0;
+	(void)args;
+	(void)env_list;
+	ft_putstr_fd("This is exit\n", STDOUT_FILENO);
+	return (0);
 }

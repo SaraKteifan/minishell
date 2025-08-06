@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skteifan <skteifan@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aalmahas <aalmahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/05 20:15:02 by skteifan          #+#    #+#             */
-/*   Updated: 2025/07/05 20:15:02 by skteifan         ###   ########.fr       */
+/*   Created: 2025/08/02 14:52:00 by skteifan          #+#    #+#             */
+/*   Updated: 2025/08/05 11:42:28 by skteifan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_minishell(char *executable_name, t_minishell *minishell)
+int	ft_pwd(void)
 {
-	minishell->env_list = NULL;
-	minishell->executable_name = executable_name;
-	minishell->input = NULL;
-	minishell->token_list = NULL;
-	minishell->cmd_list = NULL;
-	minishell->exit_status = 0;
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		printf("%s\n", cwd);
+		return (1);
+	}
+	else
+	{
+		perror("pwd");
+		return (1);
+	}
+	return (0);
 }

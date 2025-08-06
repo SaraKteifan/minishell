@@ -15,8 +15,10 @@ SRC_FILES   = main init utils \
 			env env_utils env_manage \
 			lexer lexer_utils lexer_tokens lexer_handlers \
 			expander expander_utils \
-			parser parser_syntax parser_redir parser_args\
-			cleanup
+			parser parser_utils parser_syntax parser_redir parser_files parser_args\
+			builtin builtin_echo builtin_cd builtin_pwd builtin_export builtin_unset builtin_env builtin_exit \
+			executor executor_utils executor_redir executor_parent executor_child executor_execve executor_pipes executor_cleanup \
+			cleanup cleanup_utils
 SRC         = $(addprefix $(SRC_PATH), $(addsuffix .c, $(SRC_FILES)))
 OBJ         = $(addprefix $(OBJ_PATH), $(addsuffix .o, $(SRC_FILES)))
 
